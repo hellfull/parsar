@@ -22,9 +22,9 @@ class ParseFile
   * Check if the given file path exists
   * Returns @Boolean
   **/
-  private function checkFilePath()
+  public function checkFilePath()
   {
-    return file_exists($this->path);
+    return file_exists($this->file);
   }
 
   /**

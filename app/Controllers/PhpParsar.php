@@ -23,16 +23,6 @@ class PhpParsar
     //$this->check_if_unchecked_paths_exist();
   }
 
-  public function check_if_unchecked_paths_exist()
-  {
-    $srces = $this->read_path_to_follow();
-    foreach($srces as $src )
-    {
-      var_dump($src);
-    }
-    die();
-  }
-
   public function start()
   {
       $this->parse();
@@ -49,11 +39,10 @@ class PhpParsar
 
   private function parse()
   {
-    if ($this->check_path_existance())
+    $parse_file = new ParseFile();
+    if (!$parse_file->checkFilePath())
     {
-      echo "Path: ".$this->path." exists.\n";
-    } else {
-      echo "Path: ".$this->path." does not exist. Exiting... \n";
+      echo ("Path: ".$this->path." does not exist. Exiting...");
       exit;
     }
 
@@ -68,11 +57,7 @@ class PhpParsar
 
   }
 
-  private function check_path_existance()
-  {
-    return file_exists($this->path);
-  }
-
+  // TODO write method in ParsePath Class (new)
   private function check_index_existance()
   {
     //find /Users/home/phpproj/test1 -name "index*" -print
