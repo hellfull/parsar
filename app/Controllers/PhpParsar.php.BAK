@@ -1,7 +1,7 @@
 <?php
 
 //require constant("APP_PATH").'/core/App.php';
-class PhpParsar
+class PhpParsar extends App
 {
   private $path;
   private $first_index_filepath;
@@ -14,11 +14,14 @@ class PhpParsar
   public function __construct($path)
   {
     $this->path = $path;
+    /*$this->itteration_level=0;
+    $this->pointer_value=0;
+    if (count($this->path ) > 0)
+    {
+      $this->number_of_paths_found=1;
+    }*/
     $this->app_path = constant('APP_PATH');
-
-    $needles = new PhpRules();
-    $this->needles = $needles->getNeedles();
-
+    $this->needles = ['require_once', 'include_once','include','require'];
     echo "Starting...\n";
     //$this->check_if_unchecked_paths_exist();
   }
@@ -44,7 +47,8 @@ class PhpParsar
   **/
   private function read_path_to_follow()
   {
-    // new ParseFile -> getJson
+    $str = @file_get_contents($this->app_path.'/app/data/pathstofollow.json');
+    return json_decode($str, true);
   }
 
   private function parse()

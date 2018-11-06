@@ -23,23 +23,45 @@ class App
 
 		if (count($argv)>0)
 		{
+			$argvAr = [];
+			$is_test = 0;
+			$is_update = 0;
 			for ($i = 1; $i < count($argv); $i++)
 			{
+				$argvAr[] =  $argv[$i];//var_dump($argv[$i]);
+
+				if ($argv[$i] == 'test')
+				{
+					$is_test=1;
+				}
+
 				if ($argv[$i] == 'update')
 				{
-					echo "You are going to update the parsable folder. Are you sure? (Yes/no): ";
-					$handle = fopen ("php://stdin","r");
-					$line = fgets($handle);
-					$line = trim($line);
-					if ($line == 'no')
-					{
-						echo "Update cancelled by user.\n";
-					} else if ($line == 'yes' || $line == 'Yes' || $line == 'y' || $line == 'Y' || $line == ''){
-						$this->parsable_path = '';
-					}
+					$is_update=1;
 				}
 			}
 		}
+
+		if ($is_test)
+		{
+			$test = new RunTests();
+			$test->newTest();
+		}
+		if ($is_update)
+		{
+			echo "You are going to update the parsable folder. Are you sure? (Yes/no): ";
+			$handle = fopen ("php://stdin","r");
+			$line = fgets($handle);
+			$line = trim($line);
+			if ($line == 'no')
+			{
+				echo "Update cancelled by user.\n";
+			} else if ($line == 'yes' || $line == 'Yes' || $line == 'y' || $line == 'Y' || $line == ''){
+				$this->parsable_path = '';
+			}
+		}
+
+
 		if ($this->parsable_path == '')
 		{
 			$this->register_parsable();
