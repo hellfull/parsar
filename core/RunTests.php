@@ -16,7 +16,7 @@ class RunTests
     foreach (get_class_methods($this) as $class)
     {
       //var_dump($class);
-      if ($class != '__construct' && $class != 'newTest')
+      if ( $class != '__construct' && $class != 'newTest' )
       {
           $class_str .= $class .' ';
       }
@@ -67,7 +67,7 @@ class RunTests
   }
 
   /**
-  * Belongs to @class PhpRules tests getNeedles
+  * Belongs to class PhpRules tests getNeedles
   *
   * returns @Array
   **/
@@ -75,6 +75,31 @@ class RunTests
   {
       $n = new PhpRules();
       var_dump($n->getNeedles());
+  }
+
+  public function getWebDir()
+  {
+    $n = new PhpRules();
+    var_dump($n->getWebDir());
+  }
+
+  /**
+  * Belongs to class ParsePath tests getWebDirIndex
+  *
+  **/
+  public function getWebDirIndex()
+  {
+    echo "Type the file path to be parsed: ";
+    $handle = fopen ("php://stdin","r");
+    $line = fgets($handle);
+    $line = trim($line);
+
+    $this->argument = $line;
+
+    $filePath = $this->argument;
+    $res = new ParsePath($filePath);
+    $lines = $res->getWebDirIndex();
+    var_dump($lines);
   }
 
 

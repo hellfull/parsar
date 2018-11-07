@@ -53,7 +53,7 @@ class PhpParsar extends App
 
   private function parse()
   {
-    if ($this->check_path_existance())
+    if ( $this->check_path_existance() )
     {
       echo "Path: ".$this->path." exists.\n";
     } else {
@@ -61,7 +61,7 @@ class PhpParsar extends App
       exit;
     }
 
-    if (!$this->check_index_existance())
+    if ( !$this->check_index_existance() )
     {
       echo "index.php file does not exist in the path: ".$this->path.". Exiting... \n";
       exit;
@@ -82,7 +82,7 @@ class PhpParsar extends App
     //find /Users/home/phpproj/test1 -name "index*" -print
     exec("find $this->path -name \"index.*\"", $arr, $stat);
 
-    if (count($arr) > 0) {
+    if ( count($arr) > 0 ) {
       $this->first_index_filepath = $arr[0];
       return 1;
       //TODO handle more than one
@@ -100,7 +100,7 @@ class PhpParsar extends App
       $count = 0;
       foreach($lines as $line)
       {
-        if ($this->check_if_needles_exist($line) === 1)
+        if ( $this->check_if_needles_exist($line) === 1 )
         {
           $paths_to_folow[$this->first_index_filepath][] =
           [
@@ -118,7 +118,7 @@ class PhpParsar extends App
       foreach ($this->needles as $needle)
       {
         $pos = strpos($line, $needle);
-        if ($pos !== false)
+        if ( $pos !== false )
         {
           return 1;
         }

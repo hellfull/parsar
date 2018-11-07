@@ -39,75 +39,32 @@ class PhpParsar
 
   private function parse()
   {
-    $parse_file = new ParseFile();
-    if (!$parse_file->checkFilePath())
+    //TODO use ParsePath instead
+    $parsePath = new ParsePath($this->path);
+
+    if ( !$parsePath->getPathExistance() )
     {
       echo ("Path: ".$this->path." does not exist. Exiting...");
       exit;
     }
 
-    if (!$this->check_index_existance())
+    $this->first_index_filepath = $parsePath->getWebDirIndex();
+
+    if ( !$this->first_index_filepath )
     {
-      echo "index.php file does not exist in the path: ".$this->path.". Exiting... \n";
+      echo "webdir index.php file not found in the path: ".$this->path.". Try to specify the exact path. Exiting... \n";
       exit;
     }
     $lines = [];
-    $lines = $this->get_lines();
+    $parseFile = new ParseFile($this->first_index_filepath);
 
-
+    $lines = $parseFile->getLines();
+    print_r($lines);
+    die()
+    //TODO continue
   }
 
-  // TODO write method in ParsePath Class (new)
-  private function check_index_existance()
-  {
-    //find /Users/home/phpproj/test1 -name "index*" -print
-    exec("find $this->path -name \"index.*\"", $arr, $stat);
-
-    if (count($arr) > 0) {
-      $this->first_index_filepath = $arr[0];
-      return 1;
-      //TODO handle more than one
-    }
-
-    return 0;
-  }
-
-  private function get_lines()
-  {
-      $handle = fopen($this->first_index_filepath, "r");
-      $text=fread($handle,filesize($this->first_index_filepath));
-      $lines=explode(PHP_EOL,$text);
-      $paths_to_folow =[];
-      $count = 0;
-      foreach($lines as $line)
-      {
-        if ($this->check_if_needles_exist($line) === 1)
-        {
-          $paths_to_folow[$this->first_index_filepath][] =
-          [
-                  "path_$count" => $this->get_value_from_needle($line)
-          ];
-        }
-        $count++;
-      }
-      fclose($handle);
-      $this->write_path_to_follow($paths_to_folow);
-  }
-
-  private function check_if_needles_exist($line)
-  {
-      foreach ($this->needles as $needle)
-      {
-        $pos = strpos($line, $needle);
-        if ($pos !== false)
-        {
-          return 1;
-        }
-      }
-
-    return 0;
-  }
-
+  // TODO write class that clears strings 
   private function get_value_from_needle($line)
   {
     //$matches = preg_quote('/()\'\")/', $line);
@@ -123,6 +80,7 @@ class PhpParsar
     return $str;
   }
 
+// TODO create Class to do the file schema $this->write_path_to_follow($paths_to_folow);
   private function write_path_to_follow($paths_to_folow)
   {
     $file = fopen($this->app_path.'/app/data/pathstofollow.json', "w");
