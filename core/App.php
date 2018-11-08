@@ -46,6 +46,7 @@ class App
 		{
 			$test = new RunTests();
 			$test->newTest();
+			exit;
 		}
 		if ( $is_update )
 		{
@@ -66,7 +67,7 @@ class App
 		{
 			$this->register_parsable();
 		}
-		
+
 		$phpparsar = new PhpParsar($this->parsable_path);
 		$phpparsar->start();
 	}

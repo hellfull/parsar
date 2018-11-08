@@ -16,8 +16,7 @@ class PhpParsar
     $this->path = $path;
     $this->app_path = constant('APP_PATH');
 
-    $needles = new PhpRules();
-    $this->needles = $needles->getNeedles();
+    $this->needles = PhpRules::getNeedles();
 
     echo "Starting...\n";
     //$this->check_if_unchecked_paths_exist();
@@ -59,12 +58,34 @@ class PhpParsar
     $parseFile = new ParseFile($this->first_index_filepath);
 
     $lines = $parseFile->getLines();
-    print_r($lines);
-    die()
+    //TODO case of constants in paths
+    $incNeedles = PhpRules::getNeedles();
+    $trackableLines = [];
+    foreach ($lines as $line)
+    {
+      $trackableLines[] = $parseFile->getTrackableLines($incNeedles, $line);
+    }
+    //print_r($trackableLines);
+
+    /* TODO rewrite this block and it's functions
+    $needles = PhpRules::getLineNeedles();
+
+    $stringfunction = new StringFunctionsController();
+
+    $getIncludeLines = [];
+
+    foreach ($needles as $needle)
+    {
+      $getIncludeLines[] = $stringfunction->clearLineFromNeedles($needle, $lines);
+    }
+
+    print_r($getIncludeLines);
+    */
+
     //TODO continue
   }
 
-  // TODO write class that clears strings 
+  // TODO write class that clears strings
   private function get_value_from_needle($line)
   {
     //$matches = preg_quote('/()\'\")/', $line);

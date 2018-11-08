@@ -36,8 +36,8 @@ class ParsePath
 
   private function xGetWebDirIndex($path)
   {
-    $phpRules = new PhpRules();
-    $needles = $phpRules->getWebDir();
+    $needles = PhpRules::getWebDir();
+    
     foreach ($needles as $needle)
     {
       $pos = strpos($path, $this->path."/".$needle."/index.php");
