@@ -20,7 +20,5 @@ class PhpRules
   public static function getLineNeedles()
   {
     return self::$line_needles;
-    //return [ '\'','"','(',')'];
-    //return $this->line_needles;
   }
 }

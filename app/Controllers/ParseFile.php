@@ -57,14 +57,14 @@ class ParseFile
 
     if ($strFunc->checkIfNeedled($needles) === 1)
       {
-        var_dump($line);
+        return $line;
         // TODO logic to trach the path
         /*$paths_to_folow[$this->first_index_filepath][] =
         [
                 "path_$count" => $this->get_value_from_needle($line)
         ];
         */
-        return 'track this line :' .$line;
+
       }
   }
 

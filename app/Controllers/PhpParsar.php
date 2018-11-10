@@ -38,7 +38,6 @@ class PhpParsar
 
   private function parse()
   {
-    //TODO use ParsePath instead
     $parsePath = new ParsePath($this->path);
 
     if ( !$parsePath->getPathExistance() )
@@ -60,45 +59,40 @@ class PhpParsar
     $lines = $parseFile->getLines();
     //TODO case of constants in paths
     $incNeedles = PhpRules::getNeedles();
-    $trackableLines = [];
+
     foreach ($lines as $line)
     {
-      $trackableLines[] = $parseFile->getTrackableLines($incNeedles, $line);
+      if ( strlen($line) > 1 )
+      {
+        $l = $parseFile->getTrackableLines($incNeedles, $line)."\n";
+        if ( strlen($l) > 1 )
+        {
+          $trackableLines[] = $l;
+        }
+      }
     }
-    //print_r($trackableLines);
 
-    /* TODO rewrite this block and it's functions
+    $count=0;
+    foreach ($trackableLines as $trline)
+    {
+      $stringfunction = new StringFunctionsController($trline);
+      $trimmedLines['track_'.$count] = $stringfunction->clearLinesFromNeedles($incNeedles);
+      $count++;
+    }
+
     $needles = PhpRules::getLineNeedles();
 
-    $stringfunction = new StringFunctionsController();
-
-    $getIncludeLines = [];
-
-    foreach ($needles as $needle)
+    $counter=0;
+    foreach ($trimmedLines as $key => $value)
     {
-      $getIncludeLines[] = $stringfunction->clearLineFromNeedles($needle, $lines);
+      $stringfunction = new StringFunctionsController($value);
+      $trLines['track_'.$counter] = $stringfunction->deleteCharFromString($needles);
+      $counter++;
     }
 
-    print_r($getIncludeLines);
-    */
+    die(print_r($trLines));
 
     //TODO continue
-  }
-
-  // TODO write class that clears strings
-  private function get_value_from_needle($line)
-  {
-    //$matches = preg_quote('/()\'\")/', $line);
-    $str = str_replace('\'','',$line);
-    $str = str_replace('"','',$str);
-    $str = str_replace('(','',$str);
-    $str = str_replace(')','',$str);
-    foreach ($this->needles as $needle)
-    {
-      $str = str_replace($needle.' ','',$str);
-    }
-    $str = trim($str);
-    return $str;
   }
 
 // TODO create Class to do the file schema $this->write_path_to_follow($paths_to_folow);

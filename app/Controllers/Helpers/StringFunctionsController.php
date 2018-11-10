@@ -9,24 +9,35 @@ class StringFunctionsController
       $this->str = $str;
   }
 
-  // TODO scrap
-  public function clearLineFromNeedles()
+  /**
+  * Returns the trackable lines cleaned from symbols as needles in lineNeedles[]
+  *
+  **/
+  public function clearLinesFromNeedles($needles)
   {
-    foreach ($this->xClearLineFromNeddles($lines, $needle) as $str)
+    $str = $this->str;
+
+    foreach ($needles as $needle)
     {
-      return $str;
+      if ( strpos($str, $needle.'s/') === false )
+      {
+        $str = str_replace($needle,'',$str);
+      }
     }
+    $str = trim($str);
+    return $str;
   }
 
-  //TODO scrap
-  private function xClearLineFromNeddles($lines,$needle)
+  public function deleteCharFromString($needles)
   {
-    foreach ($lines as $line)
+    $str = $this->str;
+    print_r($needles);
+    foreach ($needles as $needle)
     {
-      $line = str_replace($needle.' ','',$line);
-      $line = trim($line);
-      yield $line;
+        $str = str_replace($needle,'',$str);
     }
+    $str = trim($str);
+    return $str;
   }
 
   public function checkIfNeedled($needles)
@@ -36,11 +47,9 @@ class StringFunctionsController
       $pos = strpos($this->str, $needle);
       if ($pos !== false)
       {
-        var_dump($this->str);
         return 1;
       }
     }
-    //var_dump('in 0');
-    return 0;
+    // return 0;
   }
 }
