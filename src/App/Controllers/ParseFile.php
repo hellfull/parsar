@@ -3,6 +3,7 @@
 namespace Parsar\App\Controllers;
 
 use Parsar\App\Controllers\Helpers\StringFunctionsController;
+use Parsar\App\Controllers\Exceptions\ExceptionHandlerController;
 
 class ParseFile
 {

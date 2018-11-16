@@ -1,6 +1,6 @@
 <?php
 
-namespace Parsar\App\Exceptions;
+namespace Parsar\App\Controllers\Exceptions;
 
 /**
  * Define a custom exception class

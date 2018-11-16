@@ -1,6 +1,6 @@
 <?php
 
-namespace Parsar\App;
+namespace Parsar\App\Controllers;
 
 class FileSystemDataBase
 {
