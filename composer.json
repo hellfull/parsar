@@ -1,0 +1,17 @@
+{
+    "name": "hellfull/parsar",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Helias Fylactos",
+            "email": "fylactosdev@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+          "Parsar\\": "src/"
+        }
+    }
+}
